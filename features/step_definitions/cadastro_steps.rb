@@ -22,3 +22,7 @@ Dado('que acesso a página de login\/cadastro') do
   Dado('preencho os campos do formulário com dados válidos aleatórios') do
     @app.cadastropage.preencher_form_com_dados_aleatorios
   end
+
+  Dado('preencho os campos do formulário com {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}, {string}') do |gender, first_name, last_name, password, day, month, year, newsletter, companhy, address, city, state, zipcode, mobilephone, address_alias|
+    @app.cadastropage.preencher_form_com_dados_de_exemplos(gender, first_name, last_name, password, day, month, year, newsletter, companhy, address, city, state, zipcode, mobilephone, address_alias)
+  end
