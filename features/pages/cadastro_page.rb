@@ -25,8 +25,16 @@ class CadastroPage < SitePrism::Page
 
 
     def iniciar_criacao_conta(email)
+        case email
+        when 'aleatório'
+            @email = Faker::Internet.email(domain: 'guts')
+        when 'padrão'
+            @email = UserData.get('email')
+        else
+            @email = email
+        end
         #Se email == aleatório cria um fake com domínio do guts, senão usa o e-mail passado por parâmetro
-        @email = email.eql?('aleatório') ? Faker::Internet.email(domain: 'guts') : email
+        #@email = email.eql?('aleatório') ? Faker::Internet.email(domain: 'guts') : email
         email_create_account_field.set @email
         email_create_btn.click
     end
@@ -89,6 +97,28 @@ class CadastroPage < SitePrism::Page
         zipcode_field.set zipcode
         mobilephone_field.set mobilephone
         address_alias_field.set address_alias
+    end
+
+    def preencher_form_com_dados_datafile
+        UserData.get('gender').eql?('fem') ? title_fem_rd.set(true) : title_masc_rd.set(true)
+        @@first_name = UserData.get('first_name')
+        first_name_field.set @@first_name
+        @@last_name = UserData.get('last_name')
+        last_name_field.set @@last_name
+        password_field.set UserData.get('password')
+        day_select.select UserData.get('day')
+        month_select.select UserData.get('month')
+        year_select.select UserData.get('year')
+        #unless é o contrário do if
+        unless UserData.get('newsletter').eql?('no') 
+            newsletter_checkbox.set true
+        end
+        address_field.set UserData.get('address')
+        city_field.set UserData.get('city')
+        state_select.select UserData.get('state')
+        zipcode_field.set UserData.get('zipcode')
+        mobilephone_field.set UserData.get('mobilephone')
+        address_alias_field.set UserData.get('address_alias')
     end
 
     def account_full_name
